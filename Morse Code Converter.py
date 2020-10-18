@@ -1,4 +1,5 @@
 import sys , time
+quit = False
 txt_morse = {
     "A" : ".-" , "B" : "-..." ,
 "C": "-.-." , "D": "-.." , "E": "." , "F": "..-." ,
@@ -17,45 +18,42 @@ morse_txt = {
         "-.-" : "K" , ".-.." : "L" , "--" : "M" , "-." : "N" , 
         "---" : "O" , ".--." : "P", "--.-" : "Q" , ".-." : "R" ,
         "..." : "S" , "-" : "T" , "..-" : "U" , "...-" : "V",
-        ".--" : "W" , "-..-" : "X" , "-.--" : "Y" , "--.." :"Z"
+        ".--" : "W" , "-..-" : "X" , "-.--" : "Y" , "--.." :"Z", " " : " "
 
 }
 def text_to_morse():
     global  txt_morse
-    txt = str(input("Enter the Word You want to Convert to Morse Code\n"))
+    txt = str(input("Enter the sentence or word to Convert to Morse Code\n"))
     length = len(txt)
     UpperCase = txt.upper()
     for word in UpperCase:
         print(word + "  " + txt_morse[word])
-        time.sleep(1)
+        time.sleep(0.3)
         
 def morse_to_text():
     global morse_txt
-    morse = input("Enter the Morse Code (ONLY ALPHABET W/o SPACE) to Convert to Text\n")
-    print(str(morse) + " = " + str(morse_txt[morse]))
-    time.sleep(1)
+    morse_code = list(map(str, input("Enter Morse Code (separate words by ' / ')\n").split(' / ')))
+    for sentence in morse_code:
+        for morse in sentence:
+            print(morse_txt[morse] + "  " + morse)
+            time.sleep(0.3)
+
 
 def converter():
-    selection = input("\nPress 1 to convert TEXT to MORSE CODE\nPress 0 to convert MORSE CODE to TEXT\n")
-    if selection == "1":
-        text_to_morse()
-        Quit()
-    elif selection == "0":
-        morse_to_text()
-        Quit()
-    else:
-        print("Invalid Input")
-        time.sleep(1)
-        converter()
+    while not quit:
+        selection = input("\nPress 1 to convert TEXT to MORSE CODE\nPress 2 to convert MORSE CODE to TEXT\n\nPress 0 to Exit\n")
+        if selection == "1":
+            text_to_morse()
+        elif selection == "2":
+            morse_to_text()
+        elif selection == "0":
+            Quit()
+        else:
+            print("Invalid Input")
+            time.sleep(1)
+
 def Quit():
-    quit = input("\nPress 1 to Convert Again\nPress 0 to Quit\n")
-    if quit == "1":
-        converter()
-    elif quit == "0":
-        sys.exit()
-    else:
-        print("Invalid Input")
-        time.sleep(1)
-        quit()
+    global quit
+    quit = True
         
 converter()
